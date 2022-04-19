@@ -3,6 +3,7 @@ const { sequelize } = require('../libs/connection')
 const crypto = require('crypto');
 const config = require('../config')
 const Session = require('./Session')
+const Add = require('./Add')
 
 // indexes ?
 
@@ -89,5 +90,6 @@ User.init( {
 }, { sequelize, modelName: 'User' })
 
 User.hasMany(Session, {foreignKey: 'userId'})
+User.hasMany(Add, {foreignKey: 'userId'})
 
 module.exports = User

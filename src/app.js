@@ -5,6 +5,9 @@ const dotenv = require('dotenv')
 const { v4: uuid } = require('uuid');
 const { register, confirm } = require('./controllers/registration')
 const { login } = require('./controllers/login')
+const { logout } = require('./controllers/logout')
+const { addCreation } = require('./controllers/addCreation')
+const { getAdds } = require('./controllers/getAdds')
 const handleValidationError = require('./middleware/validationErrors')
 const Session = require('./models/Session')
 
@@ -19,6 +22,7 @@ app.use(async (ctx, next) => {
   try {
     await next()
   } catch (err) {
+    console.log('ERR', err)
     if (err.status) {
       ctx.status = err.status
       ctx.body = {error: err.message}
@@ -46,6 +50,9 @@ const router = new Router({prefix: '/api'})
 router.post('/register', handleValidationError, register)
 router.post('/confirm', handleValidationError, confirm)
 router.post('/login', handleValidationError, login);
+router.post('/logout', handleValidationError, logout);
+router.post('/createAdd', handleValidationError, addCreation);
+router.get('/getAdds', handleValidationError, getAdds);
 
 app.use(router.routes())
 
