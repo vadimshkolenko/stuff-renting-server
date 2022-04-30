@@ -1,9 +1,8 @@
-const {v4: uuid} = require('uuid')
-const passport = require('../libs/passport')
 const Add = require('../models/Add')
+const Image = require('../models/Image')
 
 module.exports.getAdds = async (ctx) => {
-  const data = await Add.findAll();
+  const data = await Add.findAll({include: Image});
 
   ctx.status = 200
   ctx.body = {status: 'ok', data}
