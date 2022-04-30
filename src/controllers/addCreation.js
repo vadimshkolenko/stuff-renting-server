@@ -1,13 +1,17 @@
-const {v4: uuid} = require('uuid')
-const passport = require('../libs/passport')
 const Add = require('../models/Add')
-const Session = require("../models/Session");
+const Image = require('../models/Image')
 
 module.exports.addCreation = async (ctx) => {
-  const { name, price, deposit, description, userId, images } = ctx.request.body
+  const images = ctx.request.files
+  const { name, price, deposit, description, userId } = ctx.request.body
 
   await Add.sync()
-  await Add.create({userId, name, price, deposit, description, images});
+  const add = await Add.create({userId, name, price, deposit, description})
+  const addId = add.id
+
+  const updatedImages = images.map(image => ({...image, addId}))
+  await Image.sync()
+  await Image.bulkCreate(updatedImages)
 
   ctx.status = 200
   ctx.body = {status: 'ok'}

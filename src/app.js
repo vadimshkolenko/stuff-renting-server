@@ -1,8 +1,11 @@
+const path = require("path")
 const Koa = require('koa')
 const Router = require('koa-router')
 const cors = require('@koa/cors')
 const dotenv = require('dotenv')
-const { v4: uuid } = require('uuid');
+const { v4: uuid } = require('uuid')
+const serve = require('koa-static')
+const multer = require('@koa/multer')
 const { register, confirm } = require('./controllers/registration')
 const { login } = require('./controllers/login')
 const { logout } = require('./controllers/logout')
@@ -45,13 +48,33 @@ app.use((ctx, next) => {
   return next();
 });
 
+app.use(serve(path.join(__dirname ,'/public')))
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join('./public'))
+  },
+  filename: (req, file, cb) => {
+    const splittedName = file.originalname.split('.')
+    let type = splittedName[splittedName.length - 1]
+    cb(null, `${file.fieldname}-${Date.now().toString(16)}.${type}`)
+  }
+})
+
+const limits = {
+  Fields: 10,// number of non-file fields
+  FileSize: 500 * 1024,// fileSize in b
+  Files: 5// files
+}
+const upload = multer({storage,limits})
+
 const router = new Router({prefix: '/api'})
 
 router.post('/register', handleValidationError, register)
 router.post('/confirm', handleValidationError, confirm)
 router.post('/login', handleValidationError, login);
 router.post('/logout', handleValidationError, logout);
-router.post('/createAdd', handleValidationError, addCreation);
+router.post('/createAdd', handleValidationError, upload.array('images'), addCreation);
 router.get('/getAdds', handleValidationError, getAdds);
 
 app.use(router.routes())

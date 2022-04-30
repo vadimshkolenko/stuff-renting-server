@@ -28,24 +28,11 @@ const Add = sequelize.define('Add', {
       onDelete: 'CASCADE'
     }
   },
-  // images: [
-  //   {
-  //     data_url: DataTypes.BLOB,
-  //     file: {
-  //       lastModified: DataTypes.INTEGER,
-  //       lastModifiedDate: DataTypes.DATE,
-  //       name: DataTypes.STRING,
-  //       size: DataTypes.INTEGER,
-  //       type: DataTypes.STRING,
-  //       webkitRelativePath: DataTypes.STRING
-  //     }
-  //   }
-  // ]
 });
 
 Add.associate = (models) => {
-  // User
   Add.belongsTo(models.User, {foreignKey: {name: 'userId', allowNull: false}})
+  Add.hasMany(models.Image, {foreignKey: 'addId'})
 }
 
 module.exports = Add
