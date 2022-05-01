@@ -6,8 +6,6 @@ const sequelize = new Sequelize(config.database.name, config.database.user, conf
   dialect: 'postgres'
 })
 
-// sequelize.sync()
-
 const testDBConnection = async () => {
   try {
     await sequelize.authenticate();

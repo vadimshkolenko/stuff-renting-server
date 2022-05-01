@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../libs/connection')
-const User = require('./User')
 
 const Image = sequelize.define('Image', {
   fieldname: { type: DataTypes.STRING },
@@ -23,7 +22,7 @@ const Image = sequelize.define('Image', {
 });
 
 Image.associate = (models) => {
-  Image.belongsTo(models.Add, {foreignKey: {name: 'addId', allowNull: false}})
+  Image.belongsTo(models.Add, {foreignKey: 'addId', as: 'add', allowNull: false})
 }
 
 module.exports = Image

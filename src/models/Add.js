@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../libs/connection')
-const User = require('./User')
 
 const Add = sequelize.define('Add', {
   name: {
@@ -32,7 +31,8 @@ const Add = sequelize.define('Add', {
 
 Add.associate = (models) => {
   Add.belongsTo(models.User, {foreignKey: {name: 'userId', allowNull: false}})
-  Add.hasMany(models.Image, {foreignKey: 'addId'})
+  Add.hasMany(models.Image, {foreignKey: 'addId', as: 'images'})
+
 }
 
 module.exports = Add
