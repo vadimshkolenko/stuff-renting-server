@@ -48,7 +48,8 @@ app.use((ctx, next) => {
   return next();
 });
 
-app.use(serve(path.join(__dirname ,'/public')))
+app.use(serve('./public'))
+console.log('path.join(__dirname ,\'/public\')', path.join(__dirname ,'/public'))
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
