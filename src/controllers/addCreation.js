@@ -3,14 +3,11 @@ const Image = require('../models/Image')
 
 module.exports.addCreation = async (ctx) => {
   const images = ctx.request.files
-  const { name, price, deposit, description, userId } = ctx.request.body
+  const { name, price, deposit, description, UserId, assessedValue } = ctx.request.body
 
-  await Add.sync()
-  const add = await Add.create({userId, name, price, deposit, description})
-  const addId = add.id
-
-  const updatedImages = images.map(image => ({...image, addId}))
-  await Image.sync()
+  const add = await Add.create({UserId, name, price, deposit, description, assessedValue})
+  const AddId = add.id
+  const updatedImages = images.map(image => ({...image, AddId}))
   await Image.bulkCreate(updatedImages)
 
   ctx.status = 200

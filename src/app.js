@@ -11,6 +11,9 @@ const { login } = require('./controllers/login')
 const { logout } = require('./controllers/logout')
 const { addCreation } = require('./controllers/addCreation')
 const { getAdds } = require('./controllers/getAdds')
+const { getAd } = require('./controllers/getAd')
+const { createDeal } = require('./controllers/createDeal')
+const { getDeals } = require('./controllers/getDeals')
 const handleValidationError = require('./middleware/validationErrors')
 const Session = require('./models/Session')
 
@@ -40,7 +43,7 @@ app.use((ctx, next) => {
   ctx.login = async function(user) {
     const token = uuid()
     await Session.sync()
-    await Session.create({token, userId: user.id, lastVisit: new Date()});
+    await Session.create({token, UserId: user.id, lastVisit: new Date()});
 
     return token;
   };
@@ -77,6 +80,9 @@ router.post('/login', handleValidationError, login);
 router.post('/logout', handleValidationError, logout);
 router.post('/createAdd', handleValidationError, upload.array('images'), addCreation);
 router.get('/getAdds', handleValidationError, getAdds);
+router.get('/getAdDetail/:id', handleValidationError, getAd);
+router.post('/createDeal', handleValidationError, createDeal);
+router.get('/getDeals/:role/:id', handleValidationError, getDeals);
 
 app.use(router.routes())
 

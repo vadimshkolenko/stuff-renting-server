@@ -10,19 +10,6 @@ const Image = sequelize.define('Image', {
   filename: { type: DataTypes.STRING },
   path: { type: DataTypes.STRING },
   size: { type: DataTypes.INTEGER },
-  addId: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: 'Adds',
-      key: 'id',
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE'
-    }
-  },
 });
-
-Image.associate = (models) => {
-  Image.belongsTo(models.Add, {foreignKey: 'addId', as: 'add', allowNull: false})
-}
 
 module.exports = Image

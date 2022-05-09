@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const config = require('../config')
 const Session = require('./Session')
 const Add = require('./Add')
+const Deal = require('./Deal')
 
 // indexes ?
 
@@ -45,12 +46,7 @@ class User extends Model {
   }
 }
 
-User.init( {
-  // id: {
-  //   type: DataTypes.UUID,
-  //   primaryKey: true,
-  //   unique: true
-  // },
+User.init({
   username: {
     type: DataTypes.STRING,
     unique: {
@@ -77,19 +73,12 @@ User.init( {
       }
     }
   },
-  verificationToken: {
-    type: DataTypes.STRING,
-    index: true,
-  },
-  passwordHash: {
-    type: DataTypes.STRING(1234),
-  },
-  salt: {
-    type: DataTypes.STRING(1234),
-  },
+  verificationToken: { type: DataTypes.STRING, index: true },
+  passwordHash: { type: DataTypes.STRING(1234) },
+  salt: { type: DataTypes.STRING(1234) },
 }, { sequelize, modelName: 'User' })
 
-User.hasMany(Session, {foreignKey: 'userId'})
-User.hasMany(Add, {foreignKey: 'userId'})
+User.hasMany(Session)
+User.hasMany(Add)
 
 module.exports = User

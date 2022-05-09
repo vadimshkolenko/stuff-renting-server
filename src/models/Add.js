@@ -1,38 +1,19 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, Model} = require('sequelize');
 const { sequelize } = require('../libs/connection')
+const Image = require('../models/Image')
+const Deal = require('../models/Deal')
 
-const Add = sequelize.define('Add', {
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  price: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  deposit: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  description: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  userId: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: 'Users',
-      key: 'id',
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE'
-    }
-  },
-});
+class Add extends Model {}
 
-Add.associate = (models) => {
-  Add.belongsTo(models.User, {foreignKey: {name: 'userId', allowNull: false}})
-  Add.hasMany(models.Image, {foreignKey: 'addId', as: 'images'})
+Add.init( {
+  name: { type: DataTypes.STRING, allowNull: false },
+  price: { type: DataTypes.STRING, allowNull: false },
+  deposit: { type: DataTypes.STRING, allowNull: true },
+  assessedValue: { type: DataTypes.STRING, allowNull: true },
+  description: { type: DataTypes.STRING, allowNull: false },
+}, { sequelize, modelName: 'Add' })
 
-}
+Add.hasMany(Deal)
+Add.hasMany(Image)
 
 module.exports = Add
