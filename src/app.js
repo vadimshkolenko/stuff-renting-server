@@ -6,16 +6,15 @@ const dotenv = require('dotenv')
 const { v4: uuid } = require('uuid')
 const serve = require('koa-static')
 const multer = require('@koa/multer')
+const Session = require('./models/Session')
+const handleValidationError = require('./middleware/validationErrors')
 const { register, confirm } = require('./controllers/registration')
 const { login } = require('./controllers/login')
 const { logout } = require('./controllers/logout')
 const { addCreation } = require('./controllers/addCreation')
 const { getAdds } = require('./controllers/getAdds')
 const { getAd } = require('./controllers/getAd')
-const { createDeal } = require('./controllers/createDeal')
-const { getDeals } = require('./controllers/getDeals')
-const handleValidationError = require('./middleware/validationErrors')
-const Session = require('./models/Session')
+const { getDeals, changeDealStatus, createDeal, cancelDealRequest } = require('./controllers/deals')
 
 dotenv.config({path: '.env'})
 
@@ -83,6 +82,8 @@ router.get('/getAdds', handleValidationError, getAdds);
 router.get('/getAdDetail/:id', handleValidationError, getAd);
 router.post('/createDeal', handleValidationError, createDeal);
 router.get('/getDeals/:role/:id', handleValidationError, getDeals);
+router.patch('/changeDealStatus', handleValidationError, changeDealStatus);
+router.delete('/cancelDealRequest/:id', handleValidationError, cancelDealRequest);
 
 app.use(router.routes())
 
