@@ -15,6 +15,7 @@ const { addCreation } = require('./controllers/addCreation')
 const { getAdds } = require('./controllers/getAdds')
 const { getAd } = require('./controllers/getAd')
 const { getDeals, changeDealStatus, createDeal, cancelDealRequest } = require('./controllers/deals')
+const { getNotifications, getCountOfUnreadNotifications } = require('./controllers/notifications')
 
 dotenv.config({path: '.env'})
 
@@ -41,7 +42,6 @@ app.use(async (ctx, next) => {
 app.use((ctx, next) => {
   ctx.login = async function(user) {
     const token = uuid()
-    await Session.sync()
     await Session.create({token, UserId: user.id, lastVisit: new Date()});
 
     return token;
@@ -51,7 +51,6 @@ app.use((ctx, next) => {
 });
 
 app.use(serve('./public'))
-console.log('path.join(__dirname ,\'/public\')', path.join(__dirname ,'/public'))
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -83,7 +82,9 @@ router.get('/getAdDetail/:id', handleValidationError, getAd);
 router.post('/createDeal', handleValidationError, createDeal);
 router.get('/getDeals/:role/:id', handleValidationError, getDeals);
 router.patch('/changeDealStatus', handleValidationError, changeDealStatus);
-router.delete('/cancelDealRequest/:id', handleValidationError, cancelDealRequest);
+router.delete('/cancelDealRequest/:id/:typeOfDeal', handleValidationError, cancelDealRequest);
+router.get('/notifications/:id', handleValidationError, getNotifications);
+router.get('/countOfUnreadNotifications/:id', handleValidationError, getCountOfUnreadNotifications);
 
 app.use(router.routes())
 

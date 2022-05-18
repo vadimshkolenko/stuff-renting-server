@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const config = require('../config')
 const Session = require('./Session')
 const Add = require('./Add')
-const Deal = require('./Deal')
+const Notification = require('./Notification')
 
 // indexes ?
 
@@ -80,5 +80,6 @@ User.init({
 
 User.hasMany(Session)
 User.hasMany(Add)
+User.hasMany(Notification)
 
 module.exports = User

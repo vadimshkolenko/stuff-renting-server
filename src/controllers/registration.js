@@ -5,9 +5,7 @@ const {sendMail} = require('../libs/sendMail');
 module.exports.register = async (ctx) => {
   const {email, password, username} = ctx.request.body
   const verificationToken = uuid()
-  // const id = uuid()
 
-  await User.sync()
   const user = User.build({email, username, verificationToken})
   await user.setPassword(password)
   await user.save()
