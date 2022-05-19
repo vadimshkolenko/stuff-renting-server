@@ -7,9 +7,9 @@ class Add extends Model {}
 
 Add.init( {
   name: { type: DataTypes.STRING, allowNull: false },
-  price: { type: DataTypes.STRING, allowNull: false },
-  deposit: { type: DataTypes.STRING, allowNull: true },
-  assessedValue: { type: DataTypes.STRING, allowNull: true },
+  price: { type: DataTypes.INTEGER, allowNull: false },
+  deposit: { type: DataTypes.INTEGER, allowNull: true },
+  assessedValue: { type: DataTypes.INTEGER, allowNull: true },
   description: { type: DataTypes.STRING, allowNull: false },
 }, { sequelize, modelName: 'Add' })
 
