@@ -39,7 +39,7 @@ router.get('/getAdDetail/:id', handleValidationError, getAd);
 router.post('/createDeal', handleValidationError, createDeal);
 router.get('/getDeals/:role/:id', handleValidationError, getDeals);
 router.patch('/changeDealStatus', handleValidationError, changeDealStatus);
-router.delete('/cancelDealRequest/:id/:typeOfDeal', handleValidationError, cancelDealRequest);
+router.delete('/cancelDealRequest/:id/:role', handleValidationError, cancelDealRequest);
 router.get('/notifications/:id', handleValidationError, getNotifications);
 router.get('/countOfUnreadNotifications/:id', handleValidationError, getCountOfUnreadNotifications);
 

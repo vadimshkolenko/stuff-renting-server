@@ -43,7 +43,7 @@ const changeDealStatus = async (ctx) => {
 }
 
 const cancelDealRequest = async (ctx) => {
-  const { id, typeOfDeal } = ctx.params
+  const { id, role } = ctx.params
 
   const deal = await Deal.findOne({
     raw: true,
@@ -55,7 +55,7 @@ const cancelDealRequest = async (ctx) => {
   });
 
   // sending cancel notification to renter
-  if (typeOfDeal === 'landlordDeals') {
+  if (role === 'landlord') {
     await Notification.create({
       UserId: deal.renterId,
       text: `Запрос на аренду ${deal.name} был отклонен`,
