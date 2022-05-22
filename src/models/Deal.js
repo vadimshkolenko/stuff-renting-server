@@ -1,7 +1,10 @@
-const { DataTypes} = require('sequelize');
+const { DataTypes, Model} = require('sequelize');
 const { sequelize } = require('../libs/connection')
+const Bill = require('../models/Bill')
 
-const Deal = sequelize.define('Deal', {
+class Deal extends Model {}
+
+Deal.init( {
   dateStart: { type: DataTypes.DATE, allowNull: false },
   dateEnd: { type: DataTypes.DATE, allowNull: false },
   price: { type: DataTypes.INTEGER, allowNull: false },
@@ -9,6 +12,9 @@ const Deal = sequelize.define('Deal', {
   renterId: { type: DataTypes.INTEGER },
   status: { type: DataTypes.STRING, allowNull: false },
   name: { type: DataTypes.STRING, allowNull: false },
-});
+}, { sequelize, modelName: 'Deal' })
+
+Deal.hasOne(Bill)
+Bill.belongsTo(Deal)
 
 module.exports = Deal

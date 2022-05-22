@@ -12,6 +12,7 @@
   "dependencies": {
     "@koa/cors": "^3.3.0",
     "@koa/multer": "^3.0.0",
+    "@qiwi/bill-payments-node-js-sdk": "^3.2.1",
     "@types/sequelize": "^4.28.11",
     "dotenv": "^16.0.0",
     "koa": "^2.13.1",
