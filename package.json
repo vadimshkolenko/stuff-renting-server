@@ -14,6 +14,7 @@
     "@koa/multer": "^3.0.0",
     "@qiwi/bill-payments-node-js-sdk": "^3.2.1",
     "@types/sequelize": "^4.28.11",
+    "axios": "^0.27.2",
     "dotenv": "^16.0.0",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",

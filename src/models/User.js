@@ -73,6 +73,14 @@ User.init({
       }
     }
   },
+  phone: {
+    type: DataTypes.STRING,
+    // unique: {
+    //   name: 'email',
+    //   msg: 'Такой email уже существует',
+    // },
+    // allowNull: false,
+  },
   verificationToken: { type: DataTypes.STRING, index: true },
   passwordHash: { type: DataTypes.STRING(1234) },
   salt: { type: DataTypes.STRING(1234) },

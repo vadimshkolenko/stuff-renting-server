@@ -16,6 +16,7 @@ module.exports = {
     password: process.env.EMAIL_PASS,
   },
   qiwi: {
-    publicKey: '48e7qUxn9T7RyYE1MVZswX1FRSbE6iyCj2gCRwwF3Dnh5XrasNTx3BGPiMsyXQFNKQhvukniQG8RTVhYm3iPtPPqaTYjmS6SNeTU3subUeDTfrEiDbUTPcDYHeEvmWwyb4UR7WEHwnPmUFPvQW99upayFbruB3Zuvvy5dyJ86V5fzuyS2qBxduFJEn4WM'
+    publicKey: '48e7qUxn9T7RyYE1MVZswX1FRSbE6iyCj2gCRwwF3Dnh5XrasNTx3BGPiMsyXQFNKQhvukniQG8RTVhYm3iPtPPqaTYjmS6SNeTU3subUeDTfrEiDbUTPcDYHeEvmWwyb4UR7WEHwnPmUFPvQW99upayFbruB3Zuvvy5dyJ86V5fzuyS2qBxduFJEn4WM',
+    token: process.env.QIWI_TOKEN
   }
 }

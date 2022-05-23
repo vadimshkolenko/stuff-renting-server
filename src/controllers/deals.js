@@ -1,8 +1,11 @@
 const Deal = require('../models/Deal')
 const Notification = require("../models/Notification");
+const { makePaymentToUser, getUserPhoneById } = require('../utils')
+const { dealStatus } = require('../constants')
+require('dotenv').config()
 
 const createDeal = async (ctx) => {
-  const {dateStart, dateEnd, AddId, renterId, price, landlordId, name} = ctx.request.body
+  const { dateStart, dateEnd, AddId, renterId, price, deposit, landlordId, name } = ctx.request.body
   await Deal.create({
     dateStart,
     dateEnd,
@@ -10,7 +13,8 @@ const createDeal = async (ctx) => {
     renterId,
     landlordId,
     price,
-    status: 'WAIT_RESPONSE',
+    deposit,
+    status: dealStatus.WAIT_RESPONSE,
     name
   })
 
@@ -29,14 +33,31 @@ const getDeals = async (ctx) => {
 
 // TODO реализация уведомлений
 const changeDealStatus = async (ctx) => {
-  const { dealId, landlordId, newStatus } = ctx.request.body
+  const { dealId, newStatus } = ctx.request.body
 
-  await Deal.update({ status: newStatus }, {
-    where: {
-      id: dealId,
-      landlordId
-    }
-  });
+  const deal = await Deal.findOne({ where: { id: dealId }, raw: true } )
+  const { price, deposit, landlordId, renterId } = deal
+
+  // TODO remove test phone on prod
+  if (newStatus === dealStatus.ACTIVE) {
+    const phone = await getUserPhoneById(landlordId)
+    await makePaymentToUser(
+      price,
+      process.env.NODE_ENV === 'test' ?
+        process.env.TEST_PHONE_NUMBER :
+        phone
+    )
+  } else if (newStatus === dealStatus.COMPLETED) {
+    const phone = await getUserPhoneById(renterId)
+    await makePaymentToUser(
+      deposit,
+      process.env.NODE_ENV === 'test' ?
+        process.env.TEST_PHONE_NUMBER :
+        phone
+    )
+  }
+
+  await Deal.update({ status: newStatus }, { where: { id: dealId } });
 
   ctx.status = 200
   ctx.body = {status: 'ok'}

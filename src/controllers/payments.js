@@ -2,6 +2,7 @@ const qiwiApi = require('../libs/qiwiApi')
 const config = require('../config')
 const Bill = require('../models/Bill')
 const Deal = require("../models/Deal")
+const { dealStatus } = require('../constants')
 
 const createPaymentForm = async (ctx) => {
   const { dealId, amount } = ctx.params
@@ -23,7 +24,7 @@ const createBill = async (ctx) => {
   const { dealId: DealId, billId } = ctx.request.body
   await Bill.create({id: billId, DealId })
 
-  await Deal.update({ status: 'WAIT_RECEIVING' }, {
+  await Deal.update({ status: dealStatus.WAIT_RECEIVING }, {
     where: {
       id: DealId,
     }
