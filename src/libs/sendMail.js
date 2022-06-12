@@ -2,6 +2,7 @@ const config = require('../config');
 const path = require('path');
 const pug = require('pug');
 const nodemailer = require('nodemailer');
+const contractGenerator = require('../utils/contractGenerator')
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
@@ -27,3 +28,17 @@ module.exports.sendMail = async (options) => {
 
   return await transporter.sendMail(message);
 };
+
+// module.exports.sendContract = async () => {
+//   const message = {
+//     to: 'vadimand1998@gmail.com',
+//     subject: 'Contract',
+//     attachments: [
+//       {
+//         filename: 'fileName.pdf',
+//         contentType: 'application/pdf'
+//       }]
+//   };
+//
+//   return await transporter.sendMail(message);
+// }

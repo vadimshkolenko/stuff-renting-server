@@ -1,6 +1,7 @@
 const {v4: uuid} = require('uuid');
 const User = require('../models/User');
 const {sendMail} = require('../libs/sendMail');
+const Favorite = require('../models/Favorite')
 
 module.exports.register = async (ctx) => {
   const { email, password, username, phone } = ctx.request.body
@@ -9,6 +10,8 @@ module.exports.register = async (ctx) => {
   const user = User.build({ email, username, verificationToken, phone })
   await user.setPassword(password)
   await user.save()
+
+  Favorite.create({ UserId: user.dataValues.id, ads: [] })
 
   await sendMail({
     template: 'confirmation',
