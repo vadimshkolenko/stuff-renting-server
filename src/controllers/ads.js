@@ -21,6 +21,22 @@ const addCreation = async (ctx) => {
   ctx.body = {status: 'ok'}
 };
 
+const updateAd = async (ctx) => {
+  const { name, price, deposit, description, assessedValue, adId } = ctx.request.body
+
+  // TODO add photos update
+  await Add.update({
+    name,
+    price: Number(price),
+    deposit: Number(deposit),
+    description,
+    assessedValue: Number(assessedValue)
+  }, { where: { id: adId } })
+
+  ctx.status = 200
+  ctx.body = {status: 'ok'}
+};
+
 const getAd = async (ctx) => {
   const { id } = ctx.params
   const data = await Add.findOne({ where: {id}, include: {model: Image}})
@@ -36,4 +52,12 @@ const getAdds = async (ctx) => {
   ctx.body = {status: 'ok', data}
 };
 
-module.exports = { addCreation, getAd, getAdds }
+const getUserAds = async (ctx) => {
+  const { id } = ctx.params
+  const data = await Add.findAll({ where: {UserId: id}, include: Image });
+
+  ctx.status = 200
+  ctx.body = {status: 'ok', data}
+};
+
+module.exports = { addCreation, getAd, getAdds, getUserAds, updateAd }
