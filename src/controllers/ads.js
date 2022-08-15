@@ -1,11 +1,11 @@
-const Add = require('../models/Add')
+const Ad = require('../models/Ad')
 const Image = require('../models/Image')
 
-const addCreation = async (ctx) => {
+const adCreation = async (ctx) => {
   const images = ctx.request.files
   const { name, price, deposit, description, UserId, assessedValue } = ctx.request.body
 
-  const add = await Add.create({
+  const ad = await Ad.create({
     UserId,
     name,
     price: Number(price),
@@ -13,8 +13,8 @@ const addCreation = async (ctx) => {
     description,
     assessedValue: Number(assessedValue)
   })
-  const AddId = add.id
-  const updatedImages = images.map(image => ({...image, AddId}))
+  const AdId = ad.id
+  const updatedImages = images.map(image => ({...image, AdId}))
   await Image.bulkCreate(updatedImages)
 
   ctx.status = 200
@@ -25,7 +25,7 @@ const updateAd = async (ctx) => {
   const { name, price, deposit, description, assessedValue, adId } = ctx.request.body
 
   // TODO add photos update
-  await Add.update({
+  await Ad.update({
     name,
     price: Number(price),
     deposit: Number(deposit),
@@ -39,14 +39,14 @@ const updateAd = async (ctx) => {
 
 const getAd = async (ctx) => {
   const { id } = ctx.params
-  const data = await Add.findOne({ where: {id}, include: {model: Image}})
+  const data = await Ad.findOne({ where: {id}, include: {model: Image}})
 
   ctx.status = 200
   ctx.body = {status: 'ok', data}
 };
 
-const getAdds = async (ctx) => {
-  const data = await Add.findAll({ include: Image });
+const getAds = async (ctx) => {
+  const data = await Ad.findAll({ include: Image });
 
   ctx.status = 200
   ctx.body = {status: 'ok', data}
@@ -54,10 +54,10 @@ const getAdds = async (ctx) => {
 
 const getUserAds = async (ctx) => {
   const { id } = ctx.params
-  const data = await Add.findAll({ where: {UserId: id}, include: Image });
+  const data = await Ad.findAll({ where: {UserId: id}, include: Image });
 
   ctx.status = 200
   ctx.body = {status: 'ok', data}
 };
 
-module.exports = { addCreation, getAd, getAdds, getUserAds, updateAd }
+module.exports = { adCreation, getAd, getAds, getUserAds, updateAd }

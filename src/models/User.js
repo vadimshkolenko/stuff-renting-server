@@ -3,7 +3,7 @@ const { sequelize } = require('../libs/connection')
 const crypto = require('crypto');
 const config = require('../config')
 const Session = require('./Session')
-const Add = require('./Add')
+const Ad = require('./Ad')
 const Notification = require('./Notification')
 const Favorite = require('./Favorite')
 
@@ -88,7 +88,7 @@ User.init({
 }, { sequelize, modelName: 'User' })
 
 User.hasMany(Session)
-User.hasMany(Add)
+User.hasMany(Ad)
 User.hasMany(Notification)
 User.hasMany(Favorite)
 

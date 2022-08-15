@@ -5,11 +5,11 @@ const { dealStatus } = require('../constants')
 require('dotenv').config()
 
 const createDeal = async (ctx) => {
-  const { dateStart, dateEnd, AddId, renterId, price, deposit, landlordId, name } = ctx.request.body
+  const { dateStart, dateEnd, AdId, renterId, price, deposit, landlordId, name } = ctx.request.body
   await Deal.create({
     dateStart,
     dateEnd,
-    AddId,
+    AdId,
     renterId,
     landlordId,
     price,

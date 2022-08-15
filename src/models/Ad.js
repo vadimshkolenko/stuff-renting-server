@@ -3,17 +3,17 @@ const { sequelize } = require('../libs/connection')
 const Image = require('../models/Image')
 const Deal = require('../models/Deal')
 
-class Add extends Model {}
+class Ad extends Model {}
 
-Add.init( {
+Ad.init( {
   name: { type: DataTypes.STRING, allowNull: false },
   price: { type: DataTypes.INTEGER, allowNull: false },
   deposit: { type: DataTypes.INTEGER, allowNull: true },
   assessedValue: { type: DataTypes.INTEGER, allowNull: true },
   description: { type: DataTypes.STRING, allowNull: false },
-}, { sequelize, modelName: 'Add' })
+}, { sequelize, modelName: 'Ad' })
 
-Add.hasMany(Deal)
-Add.hasMany(Image)
+Ad.hasMany(Deal)
+Ad.hasMany(Image)
 
-module.exports = Add
+module.exports = Ad

@@ -1,4 +1,7 @@
 const Favorite = require("../models/Favorite");
+const Ad = require('../models/Ad')
+const { Op } = require('sequelize');
+const Image = require("../models/Image");
 
 const addToFavorite = async (ctx) => {
   const { adId, UserId } = ctx.request.body
@@ -28,8 +31,17 @@ const getFavorite = async (ctx) => {
 
   const favorite = await Favorite.findOne({ raw: true, where: { UserId } })
 
+  const ads = await Ad.findAll({
+    where: {
+      id: {
+        [Op.in]: favorite.ads,
+      },
+    },
+    include: Image
+  })
+
   ctx.status = 200
-  ctx.body = {status: 'ok', data: favorite.ads}
+  ctx.body = {status: 'ok', data: ads}
 }
 
 const checkIsFavorite = async (ctx) => {
